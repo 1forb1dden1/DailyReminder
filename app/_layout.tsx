@@ -12,10 +12,13 @@ export default function _layout() {
         },
         headerTintColor: 'white'
     }}>
-        <Stack.Screen name = "index" options = {{
+        <Stack.Screen name = "home/index" options = {{
             title: 'Home'
         }} />
-        <Stack.Screen name = "login/index" options = {{
+        <Stack.Screen name = "list/index" options = {{
+            title: 'Daily List'
+        }} />
+        <Stack.Screen name = "index" options = {{
             title: 'Login/Register'
         }} />
     </Stack>

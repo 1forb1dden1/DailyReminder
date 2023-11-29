@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from 'react'
-import { Button, KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import { KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { authentication } from '../../firebase/firebase-config';
-import { Link } from 'expo-router';
+import { router } from 'expo-router';
 
 export default function LoginScreen() {
 const [SignedUser, setSignedUser] = useState(false);
@@ -13,9 +13,7 @@ useEffect(() =>
 {
     const check = authentication.onAuthStateChanged(() =>{ 
         if(SignedUser === true){
-            <Link href="/" asChild>
-                <Button title="Open Registered Page"/>
-            </Link>
+            router.replace("/home/");
         }
     })
     return check
