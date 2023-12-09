@@ -1,5 +1,5 @@
 //Daily To Do Reminder
-import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, TextInput, Pressable, Keyboard, AsyncStorage } from 'react-native'
+import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, TextInput, Pressable, Keyboard} from 'react-native'
 import React, {useState} from 'react'
 import Task from '../../components/task'
 
@@ -101,10 +101,10 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    borderColor: 'C0C0C0',
+    borderColor: '#C0C0C0',
     borderWidth: 1,
   },
   addTextDiv:{
-
+    
   }
 })

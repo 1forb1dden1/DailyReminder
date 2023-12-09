@@ -13,7 +13,7 @@ export default function LoginScreen() {
   useEffect(() => {
     const check = authentication.onAuthStateChanged(() => {
       if (signedUser === true) {
-        router.replace('/(tabs)/home');
+        router.replace('/(tabs)/1');
       }
     });
     return check;
@@ -50,7 +50,7 @@ export default function LoginScreen() {
         <TextInput placeholder="Email" value={email} onChangeText={(text) => setEmail(text)} style={styles.input} />
         <TextInput placeholder="Password" value={password} onChangeText={(text) => setPassword(text)} style={styles.input} secureTextEntry />
       </View>
-      {error && <Text style={styles.errorText}>{error}</Text>} {/* Display error message */}
+      {error !== "" && <Text style={styles.errorText}>{error}</Text>}
       <View style={styles.buttonContainer}>
         <TouchableOpacity onPress={Login} style={styles.button}>
           <Text style={styles.buttonText}>Login</Text>
