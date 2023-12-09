@@ -9,9 +9,13 @@ export default function _layout() {
         },
         headerTintColor: 'white'
     }}>
-        <Tabs.Screen name="home" options ={{
-            headerTitle: "Home",
-            tabBarLabel: "Home",
+        <Tabs.Screen name="1" options ={{
+            headerTitle: "Tasks",
+            tabBarLabel: "Tasks",
+        }}/>
+        <Tabs.Screen name="2" options ={{
+            headerTitle: "Edit",
+            tabBarLabel: "Edit",
         }}/>
     </Tabs>
   )

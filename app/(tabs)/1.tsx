@@ -1,0 +1,110 @@
+//Daily To Do Reminder
+import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, TextInput, Pressable, Keyboard, AsyncStorage } from 'react-native'
+import React, {useState} from 'react'
+import Task from '../../components/task'
+
+export default function Tasks() {
+  const [task, setTask] = useState<string>('');
+  const [taskItems, setTaskItems] = useState<string[]>([]);
+
+  const AddTaskHandler = () => {
+    Keyboard.dismiss();
+    setTaskItems([...taskItems, task]);
+    setTask('');
+  };
+
+  const deleteTask = (index: number) => {
+    let itemsCopy = [...taskItems];
+    itemsCopy.splice(index, 1);
+    setTaskItems(itemsCopy);
+  }
+  return (
+    <View style={styles.container}>
+      {/* Today's Tasks */}
+      <View style={styles.tasksDiv}>
+        <Text style={styles.sectionTitle}>Daily Habit Builder</Text>
+
+        <ScrollView style={styles.items}>
+          {
+            taskItems.map((item, index) => {
+              return (
+                <Pressable key={index}  onPress={() => deleteTask(index)}>
+                  <Task text={item} /> 
+                </Pressable>
+              )
+            })
+          }
+        </ScrollView>
+      </View>
+
+      {/* Write a task */}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.writeTaskDiv}
+      >
+        <TextInput
+          style={styles.input}
+          placeholder={'Write a task'}
+          value={task}
+          onChangeText={(text) => setTask(text)}
+        />
+
+        <Pressable onPress={AddTaskHandler}>
+          <View style={styles.addDiv}>
+            <Text style={styles.addTextDiv}>+</Text>
+          </View>
+        </Pressable>
+      </KeyboardAvoidingView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, 
+    backgroundColor: '#E8EAED',
+  },
+  tasksDiv: {
+    paddingTop: 20,
+    paddingHorizontal: 20,
+  },
+  sectionTitle:{
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  items: {
+    paddingTop: 30,
+    height: 600,
+  },
+  writeTaskDiv: {
+    position: 'absolute',
+    bottom: 60,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  input: {
+    paddingVertical: 15,
+    paddingHorizontal: 15,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    borderColor: '#C0C0C0',
+    borderWidth: 1,
+    width: 280,
+    height: 60,
+  },
+  addDiv:{
+    width: 60,
+    height: 60,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor: 'C0C0C0',
+    borderWidth: 1,
+  },
+  addTextDiv:{
+
+  }
+})

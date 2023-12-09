@@ -1,10 +1,10 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-export default function leaderboard() {
+export default function PageTwo() {
   return (
     <View>
-      <Text>leaderboard</Text>
+      <Text>PageTwo</Text>
     </View>
   )
 }
