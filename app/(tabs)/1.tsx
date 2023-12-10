@@ -2,6 +2,7 @@
 import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, TextInput, Pressable, Keyboard} from 'react-native'
 import React, {useState} from 'react'
 import Task from '../../components/task'
+import { count } from './WeekCalendar';
 
 export default function Tasks() {
   const [task, setTask] = useState<string>('');
