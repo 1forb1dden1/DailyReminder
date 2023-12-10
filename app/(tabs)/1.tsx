@@ -18,6 +18,7 @@ export default function Tasks() {
     itemsCopy.splice(index, 1);
     setTaskItems(itemsCopy);
   }
+  
   return (
     <View style={styles.container}>
       {/* Today's Tasks */}

@@ -14,8 +14,8 @@ export default function _layout() {
             tabBarLabel: "Tasks",
         }}/>
         <Tabs.Screen name="2" options ={{
-            headerTitle: "Edit",
-            tabBarLabel: "Edit",
+            headerTitle: "Schedule",
+            tabBarLabel: "Schedule",
         }}/>
     </Tabs>
   )
