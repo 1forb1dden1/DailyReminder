@@ -3,8 +3,6 @@ import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, Tex
 import React, {useState} from 'react'
 import Task from '../../components/task'
 import taskStore from '../zustand/stores'
-import { count } from '../WeekCalendar';
-
 
 export default function Tasks() {
   const [task, setTask] = useState<string>(''); 
@@ -12,6 +10,8 @@ export default function Tasks() {
     tasks: state.tasks,
     setTasks: state.setTasks,
   }));
+
+  const increment = taskStore(state => state.increment)
 
   const AddTaskHandler = () => {
     Keyboard.dismiss();
@@ -31,7 +31,7 @@ export default function Tasks() {
     itemsCopy.splice(index, 1);
     setTasks(itemsCopy); // Update tasks using setTasks
   };
-  
+
   return (
     <View style={styles.container}>
       {/* Today's Tasks */}
@@ -42,7 +42,7 @@ export default function Tasks() {
           {
             tasks.map((item, index) => {
               return (
-                <Pressable key={index}  onPress={() => deleteTask(index)}>
+                <Pressable key={index}  onPress={() => {deleteTask(index); increment()}}>
                   <Task text={item} /> 
                 </Pressable>
               )

@@ -1,6 +1,7 @@
 import { addDays, format, getDate, isSameDay, startOfWeek } from 'date-fns';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import taskStore from './zustand/stores'
 
 type Props = {
   date: Date;
@@ -9,11 +10,12 @@ type Props = {
 
 const WeekCalendar: React.FC<Props> = ({ date, onChange }) => {
   const [week, setWeek] = useState<WeekDay[]>([]);
+  const { completed, increment } = taskStore();
 
   useEffect(() => {
-    const weekDays = getWeekDays(date);
+    const weekDays = getWeekDays(date, completed);
     setWeek(weekDays);
-  }, [date]);
+  }, [date, completed]);
 
   return (
     <View style={styles.container}>
@@ -22,19 +24,18 @@ const WeekCalendar: React.FC<Props> = ({ date, onChange }) => {
         const touchable = [styles.touchable];
 
         const sameDay = isSameDay(weekDay.date, date);
+        if (sameDay) {
+          textStyles.push(styles.selectedLabel);
+          touchable.push(styles.selectedTouchable);
+        }
 
         return (
           <View style={styles.weekDayItem} key={weekDay.formatted}>
             <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
-            <TouchableOpacity
-              onPress={() => {
-                onChange(weekDay.date);
-              }}
-              style={touchable}
-            >
+            <TouchableOpacity style={touchable}>
               <Text style={textStyles}>{weekDay.day}</Text>
             </TouchableOpacity>
-            <Text style={styles.numbers}>{weekDay.counter}</Text>
+            <Text style={styles.numbers}>{sameDay ? completed : weekDay.counter}</Text>
           </View>
         );
       })}
@@ -87,26 +88,22 @@ export type WeekDay = {
   counter: number;
 };
 
-export const getWeekDays = (date: Date): WeekDay[] => {
+export const getWeekDays = (date: Date, completed: number): WeekDay[] => {
   const start = startOfWeek(date, { weekStartsOn: 1 });
 
   const final = [];
 
   for (let i = 0; i < 7; i++) {
-    const date = addDays(start, i);
+    const currentDate = addDays(start, i);
     final.push({
-      formatted: format(date, 'EEE'),
-      date,
-      day: getDate(date),
-      counter: 0,
+      formatted: format(currentDate, 'EEE'),
+      date: currentDate,
+      day: getDate(currentDate),
+      counter: 0, // Initialize counter to 0 for each day
     });
   }
 
   return final;
 };
-
-export function updatCounter(counter: 0): void{
-
-}
 
 export default WeekCalendar;
