@@ -1,24 +1,38 @@
 import { addDays, format, getDate, isSameDay, startOfWeek } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import taskStore from './zustand/stores'
+import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
+import taskStore from './zustand/stores';
+import {MaterialIcons} from '@expo/vector-icons';
 
 type Props = {
   date: Date;
   onChange: (value: Date) => void;
 };
 
-const WeekCalendar: React.FC<Props> = ({ date, onChange }) => {
+const WeekCalendar: React.FC<Props> = ({ date}) => {
   const [week, setWeek] = useState<WeekDay[]>([]);
-  const { completed, increment } = taskStore();
+  const { completed, complete, increment } = taskStore();
 
   useEffect(() => {
-    const weekDays = getWeekDays(date, completed);
+    const weekDays = getWeekDays(date, complete);
     setWeek(weekDays);
   }, [date, completed]);
 
+  const [modalOpen, setModalOpen] = useState(false)
+
   return (
     <View style={styles.container}>
+      <Modal visible = {modalOpen} animationType={'fade'}>
+          <View style={styles.modalToggle}>
+          <MaterialIcons
+        name='close'
+        size = {48}
+        styles={styles.modalToggle}
+        onPress={() => setModalOpen(false)}
+      />
+          </View>
+      </Modal>
+
       {week.map((weekDay) => {
         const textStyles = [styles.label];
         const touchable = [styles.touchable];
@@ -32,10 +46,10 @@ const WeekCalendar: React.FC<Props> = ({ date, onChange }) => {
         return (
           <View style={styles.weekDayItem} key={weekDay.formatted}>
             <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
-            <TouchableOpacity style={touchable}>
+            <TouchableOpacity  onPress={() => setModalOpen(true)} style={touchable}>
               <Text style={textStyles}>{weekDay.day}</Text>
             </TouchableOpacity>
-            <Text style={styles.numbers}>{sameDay ? completed : weekDay.counter}</Text>
+            <Text style={styles.numbers}>{sameDay ? complete : weekDay.counter}</Text>
           </View>
         );
       })}
@@ -77,6 +91,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginTop: 5,
   },
+  modalToggle: {
+    margin: 20,
+    alignSelf: 'flex-end',
+  },
+  modalSpace: {
+    margin: 50
+  }
 });
 
 export const count = 0;

@@ -10,6 +10,8 @@ export default function PageTwo() {
   const [task, setTask] = useState<string>(''); 
   const { tasks, setTasks, completed, setCompleted } = taskStore();
 
+  const increment = taskStore(state => state.increment)
+
   const AddTaskHandler = () => {
     Keyboard.dismiss();
     const newTaskItemsArray = [...tasks, task];
@@ -32,7 +34,7 @@ export default function PageTwo() {
           {
             tasks.map((item, index) => {
               return (
-                <Pressable key={index}  onPress={() => deleteTask(index)}>
+                <Pressable key={index}  onPress={() => {deleteTask(index); increment()}}>
                   <Task text={item} showX={true} isCompleted={false}/> 
                 </Pressable>
               )

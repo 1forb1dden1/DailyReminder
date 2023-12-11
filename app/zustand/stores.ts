@@ -5,6 +5,8 @@ interface TaskStore {
   setTasks: (newTasks: string[]) => void;
   completed: boolean[];
   setCompleted: (value: (prevCompleted: boolean[]) => boolean[]) => void;
+  complete: number;
+    increment: () => void;
 }
 
 const taskStore = create<TaskStore>((set) => ({
@@ -13,6 +15,8 @@ const taskStore = create<TaskStore>((set) => ({
   completed: [],
   setCompleted: (value: (prevCompleted: boolean[]) => boolean[]) =>
     set((state) => ({ completed: value(state.completed) })),
+    complete:0,
+    increment: () => set((state) => ({ complete: state.complete + 1 })),
 }));
 
 export default taskStore;

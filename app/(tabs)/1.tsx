@@ -6,6 +6,8 @@ import Task from '../../components/task';
 export default function PageOne() {
   const { tasks, setTasks, completed, setCompleted } = taskStore();
 
+  const increment = taskStore(state => state.increment)
+
   const handleTaskPress = (index: number) => {
     setCompleted((prevCompleted: boolean[]) => {
       const updatedCompleted = [...prevCompleted];
