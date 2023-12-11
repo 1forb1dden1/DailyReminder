@@ -2,23 +2,35 @@
 import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, TextInput, Pressable, Keyboard} from 'react-native'
 import React, {useState} from 'react'
 import Task from '../../components/task'
+import taskStore from '../zustand/stores'
 import { count } from './WeekCalendar';
 
+
 export default function Tasks() {
-  const [task, setTask] = useState<string>('');
-  const [taskItems, setTaskItems] = useState<string[]>([]);
+  const [task, setTask] = useState<string>(''); 
+  const { tasks, setTasks } = taskStore((state) => ({
+    tasks: state.tasks,
+    setTasks: state.setTasks,
+  }));
 
   const AddTaskHandler = () => {
     Keyboard.dismiss();
-    setTaskItems([...taskItems, task]);
+
+    // Add task to tasks array
+    const newTaskItemsArray = [...tasks, task];
+
+    // Update tasks array in the store
+    setTasks(newTaskItemsArray);
+
+    // Clear the input field
     setTask('');
   };
 
   const deleteTask = (index: number) => {
-    let itemsCopy = [...taskItems];
+    let itemsCopy = [...tasks];
     itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy);
-  }
+    setTasks(itemsCopy); // Update tasks using setTasks
+  };
   
   return (
     <View style={styles.container}>
@@ -28,7 +40,7 @@ export default function Tasks() {
 
         <ScrollView style={styles.items}>
           {
-            taskItems.map((item, index) => {
+            tasks.map((item, index) => {
               return (
                 <Pressable key={index}  onPress={() => deleteTask(index)}>
                   <Task text={item} /> 
