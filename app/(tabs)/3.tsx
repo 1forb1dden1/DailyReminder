@@ -33,7 +33,7 @@ export default function PageTwo() {
             tasks.map((item, index) => {
               return (
                 <Pressable key={index}  onPress={() => deleteTask(index)}>
-                  <Task text={item} showX={true}/> 
+                  <Task text={item} showX={true} isCompleted={false}/> 
                 </Pressable>
               )
             })
