@@ -1,18 +1,19 @@
 import React from 'react';
-import { View, Text, StyleSheet} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-const Task = (props: any) => {
-
+const Task = (props: { text: string; showX: boolean; isCompleted: boolean }) => {
   return (
-    <View style={styles.item}>
+    <View style={[styles.item, props.isCompleted && styles.completedItem]}>
       <View style={styles.itemLeft}>
-        <View style={styles.square}></View>
-        <Text style={styles.itemText}>{props.text}</Text>
+        <View style={[styles.square, props.isCompleted && styles.completedSquare]}></View>
+        <Text style={[styles.itemText, props.isCompleted && styles.completedText]}>
+          {props.text}
+        </Text>
       </View>
-      <Text style={styles.xItem}>X</Text>
+      {props.showX && <Text style={styles.xItem}>X</Text>}
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   item: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   itemLeft: {
     flexDirection: 'row',
     alignItems: 'center',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   square: {
     width: 24,
@@ -40,10 +41,19 @@ const styles = StyleSheet.create({
   itemText: {
     maxWidth: '80%',
   },
+  completedItem: {
+    backgroundColor: 'lightgreen', // Change the background color for completed tasks
+  },
+  completedSquare: {
+    backgroundColor: 'green', // Change the square color for completed tasks
+  },
+  completedText: {
+    textDecorationLine: 'line-through', // Add a line-through for completed tasks
+  },
   xItem: {
-    Color: '#55BCF6',
+    color: '#55BCF6',
     fontSize: 16,
-    width: 20
+    width: 20,
   },
 });
 

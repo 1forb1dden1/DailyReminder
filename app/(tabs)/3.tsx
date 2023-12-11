@@ -8,10 +8,7 @@ import { count } from '../WeekCalendar';
 
 export default function PageTwo() {
   const [task, setTask] = useState<string>(''); 
-  const { tasks, setTasks } = taskStore((state) => ({
-    tasks: state.tasks,
-    setTasks: state.setTasks,
-  }));
+  const { tasks, setTasks, completed, setCompleted } = taskStore();
 
   const AddTaskHandler = () => {
     Keyboard.dismiss();
@@ -30,14 +27,13 @@ export default function PageTwo() {
     <View style={styles.container}>
       {/* Today's Tasks */}
       <View style={styles.tasksDiv}>
-        <Text style={styles.sectionTitle}>Daily Habit Builder</Text>
 
         <ScrollView style={styles.items}>
           {
             tasks.map((item, index) => {
               return (
                 <Pressable key={index}  onPress={() => deleteTask(index)}>
-                  <Task text={item} /> 
+                  <Task text={item} showX={true}/> 
                 </Pressable>
               )
             })

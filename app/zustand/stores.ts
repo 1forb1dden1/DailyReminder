@@ -1,17 +1,18 @@
 import { create } from 'zustand';
 
 interface TaskStore {
-    tasks: string[];
-    setTasks: (newTasks: string[]) => void;
-    completed: number;
-    increment: () => void;
-  }
-  
-  const taskStore = create<TaskStore>((set) => ({
-    tasks: [],
-    setTasks: (newTasks: string[]) => set({ tasks: newTasks }),
-    completed:0,
-    increment: () => set((state) => ({ completed: state.completed + 1 })),
-  }));
-  
-  export default taskStore;
+  tasks: string[];
+  setTasks: (newTasks: string[]) => void;
+  completed: boolean[];
+  setCompleted: (value: (prevCompleted: boolean[]) => boolean[]) => void;
+}
+
+const taskStore = create<TaskStore>((set) => ({
+  tasks: [],
+  setTasks: (newTasks: string[]) => set({ tasks: newTasks }),
+  completed: [],
+  setCompleted: (value: (prevCompleted: boolean[]) => boolean[]) =>
+    set((state) => ({ completed: value(state.completed) })),
+}));
+
+export default taskStore;
