@@ -1,7 +1,7 @@
 import {addDays} from 'date-fns';
 import React, {useState} from 'react';
 import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import WeekCalendar from './WeekCalendar';
+import WeekCalendar from '../WeekCalendar';
 
 const App: React.FC = () => {
   const [date, setDate] = useState(new Date());

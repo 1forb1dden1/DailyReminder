@@ -3,7 +3,7 @@ import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, Tex
 import React, {useState} from 'react'
 import Task from '../../components/task'
 import taskStore from '../zustand/stores'
-import { count } from './WeekCalendar';
+import { count } from '../WeekCalendar';
 
 
 export default function Tasks() {
