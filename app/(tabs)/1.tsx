@@ -6,7 +6,7 @@ import Task from '../../components/task';
 export default function PageOne() {
   const { tasks, setTasks, completed, setCompleted } = taskStore();
 
-  const increment = taskStore(state => state.increment)
+  const {increment, decrement} = taskStore()
 
   const handleTaskPress = (index: number) => {
     setCompleted((prevCompleted: boolean[]) => {
@@ -26,7 +26,7 @@ export default function PageOne() {
         <ScrollView>
           {tasks.length > 0 ? (
             tasks.map((item, index) => (
-            <Pressable key={index} onPress={() => handleTaskPress(index)}>
+            <Pressable key={index} onPress={() => {handleTaskPress(index); {completed[index] ? decrement() : increment()}}}>
                 <Task text={item} showX={false} isCompleted={completed[index]} />
               </Pressable>
             ))

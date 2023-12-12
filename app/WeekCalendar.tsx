@@ -1,67 +1,87 @@
 import { addDays, format, getDate, isSameDay, startOfWeek } from 'date-fns';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Modal } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, Modal, TextInput, Pressable, ScrollView } from 'react-native';
 import taskStore from './zustand/stores';
 import {MaterialIcons} from '@expo/vector-icons';
+import Task from '../components/task';
 
 type Props = {
   date: Date;
   onChange: (value: Date) => void;
 };
 
-const WeekCalendar: React.FC<Props> = ({ date}) => {
+const WeekCalendar: React.FC<Props> = ({ date }) => {
   const [week, setWeek] = useState<WeekDay[]>([]);
-  const { completed, complete, increment } = taskStore();
+  const { tasks, completed, complete } = taskStore();
 
   useEffect(() => {
     const weekDays = getWeekDays(date, complete);
     setWeek(weekDays);
   }, [date, completed]);
 
-  const [modalOpen, setModalOpen] = useState(false)
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <View style={styles.container}>
-      <Modal visible = {modalOpen} animationType={'fade'}>
-          <View style={styles.modalToggle}>
+      <Modal visible={modalOpen} animationType={'slide'} transparent={true}>
+        <View style={styles.modalComp}>
+        <ScrollView>
+          {tasks.length > 0 ? (
+            tasks.map((item, index) => (
+                <Task text={item} showX={true} isCompleted={completed[index]} />
+            ))
+          ) : (
+            <Text style={styles.sectionText}>No task's completed on this day</Text>
+          )}
+        </ScrollView>
           <MaterialIcons
-        name='close'
-        size = {48}
-        styles={styles.modalToggle}
-        onPress={() => setModalOpen(false)}
-      />
-          </View>
+            name="close"
+            size={48}
+            styles={styles.modalToggle}
+            onPress={() => setModalOpen(false)}
+          />
+        </View>
       </Modal>
 
-      {week.map((weekDay) => {
-        const textStyles = [styles.label];
-        const touchable = [styles.touchable];
+      <View style={styles.weekCalendar}>
+        {week.map((weekDay) => {
+          const textStyles = [styles.label];
+          const touchable = [styles.touchable];
 
-        const sameDay = isSameDay(weekDay.date, date);
-        if (sameDay) {
-          textStyles.push(styles.selectedLabel);
-          touchable.push(styles.selectedTouchable);
-        }
+          const sameDay = isSameDay(weekDay.date, date);
+          if (sameDay) {
+            textStyles.push(styles.selectedLabel);
+            touchable.push(styles.selectedTouchable);
+          }
 
-        return (
-          <View style={styles.weekDayItem} key={weekDay.formatted}>
-            <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
-            <TouchableOpacity  onPress={() => setModalOpen(true)} style={touchable}>
-              <Text style={textStyles}>{weekDay.day}</Text>
-            </TouchableOpacity>
-            <Text style={styles.numbers}>{sameDay ? complete : weekDay.counter}</Text>
-          </View>
-        );
-      })}
+          return (
+            <View style={styles.weekDayItem} key={weekDay.formatted}>
+              <Text style={styles.weekDayText}>{weekDay.formatted}</Text>
+              <TouchableOpacity onPress={() => setModalOpen(true)} style={touchable}>
+                <Text style={textStyles}>{weekDay.day}</Text>
+              </TouchableOpacity>
+              <Text style={styles.numbers}>{sameDay ? complete : weekDay.counter}</Text>
+            </View>
+          );
+        })}
+      </View>
+
+      <View style={styles.textBelowWeek}>
+        <Text style={styles.textBelowWeekContent}>Select a date to view completed tasks</Text>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-around',
     paddingVertical: 10,
+  },
+  weekCalendar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   weekDayText: {
     color: 'gray',
@@ -92,11 +112,29 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   modalToggle: {
-    margin: 20,
-    alignSelf: 'flex-end',
+    margin: 50,
   },
-  modalSpace: {
-    margin: 50
+  modalComp: {
+    height: '83%',
+    marginTop: 'auto',
+    backgroundColor: 'white',
+  },
+  taskCompletedText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  textBelowWeek: {
+    marginTop: 20,
+    alignItems: 'center',
+  },
+  textBelowWeekContent: {
+    fontSize: 13,
+    fontWeight: 'normal',
+    color: 'black',
+  },
+  sectionText:{
+    alignSelf: 'center'
   }
 });
 

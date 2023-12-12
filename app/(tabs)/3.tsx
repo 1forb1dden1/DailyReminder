@@ -3,7 +3,6 @@ import { ScrollView, View, Text, StyleSheet, KeyboardAvoidingView, Platform, Tex
 import React, {useState} from 'react'
 import Task from '../../components/task'
 import taskStore from '../zustand/stores'
-import { count } from '../WeekCalendar';
 
 
 export default function PageTwo() {
@@ -34,8 +33,8 @@ export default function PageTwo() {
           {
             tasks.map((item, index) => {
               return (
-                <Pressable key={index}  onPress={() => {deleteTask(index); increment()}}>
-                  <Task text={item} showX={true} isCompleted={false}/> 
+                <Pressable key={index}  onPress={() => {deleteTask(index)}}>
+                  <Task text={item} showX={false} isCompleted={false}/> 
                 </Pressable>
               )
             })
