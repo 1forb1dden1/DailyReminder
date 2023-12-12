@@ -34,7 +34,7 @@ export default function PageTwo() {
             tasks.map((item, index) => {
               return (
                 <Pressable key={index}  onPress={() => {deleteTask(index)}}>
-                  <Task text={item} showX={false} isCompleted={false}/> 
+                  <Task text={item} showX={true} isCompleted={false}/> 
                 </Pressable>
               )
             })
@@ -53,6 +53,7 @@ export default function PageTwo() {
           value={task}
           onChangeText={(text) => setTask(text)}
         />
+        
 
         <Pressable onPress={AddTaskHandler}>
           <View style={styles.addDiv}>
@@ -60,6 +61,11 @@ export default function PageTwo() {
           </View>
         </Pressable>
       </KeyboardAvoidingView>
+      <View> 
+        <View>
+          <Text style={styles.breakText}>Can the task be broken down further?</Text>
+          </View>
+        </View>
     </View>
   );
 }
@@ -111,5 +117,9 @@ const styles = StyleSheet.create({
   },
   addTextDiv:{
     
+  },
+  breakText:{
+    alignSelf:'center',
+    fontWeight: 'bold',
   }
 })

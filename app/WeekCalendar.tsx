@@ -25,21 +25,20 @@ const WeekCalendar: React.FC<Props> = ({ date }) => {
     <View style={styles.container}>
       <Modal visible={modalOpen} animationType={'slide'} transparent={true}>
         <View style={styles.modalComp}>
-        <ScrollView>
-          {tasks.length > 0 ? (
-            tasks.map((item, index) => (
-                <Task text={item} showX={false} isCompleted={false} />
-            ))
-          ) : (
-            <Text style={styles.sectionText}>No task's completed on this day</Text>
-          )}
-        </ScrollView>
-          <MaterialIcons
+        <MaterialIcons
             name="close"
             size={48}
             styles={styles.modalToggle}
             onPress={() => setModalOpen(false)}
           />
+        <ScrollView>
+          {completed.includes(true) ? (
+            tasks.map((item, index) => (completed[index] ? <Task text={item} showX={false} isCompleted={false} />: null
+            ))
+          ) : (
+            <Text style={styles.sectionText}>No completed tasks</Text>
+          )}
+        </ScrollView>
         </View>
       </Modal>
 
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   modalToggle: {
-    margin: 50,
+    margin: 500,
   },
   modalComp: {
     height: '83%',
