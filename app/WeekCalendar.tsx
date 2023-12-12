@@ -28,7 +28,7 @@ const WeekCalendar: React.FC<Props> = ({ date }) => {
         <ScrollView>
           {tasks.length > 0 ? (
             tasks.map((item, index) => (
-                <Task text={item} showX={true} isCompleted={completed[index]} />
+                <Task text={item} showX={false} isCompleted={false} />
             ))
           ) : (
             <Text style={styles.sectionText}>No task's completed on this day</Text>
